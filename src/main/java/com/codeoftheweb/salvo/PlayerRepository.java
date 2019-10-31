@@ -9,4 +9,5 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
   Player findByuserName(String name);
 
+  Player findByUserName(String inputName);
 }
