@@ -1,4 +1,3 @@
-
 let resData;
 
 fetch( "/api/games").then(function (response) {
@@ -25,6 +24,57 @@ function makingList(info){
  })
 
  list.forEach(function(e){document.getElementById("game-list").innerHTML += e})
+
+
+ }
+ $( document ).ready(function() {
+
+
+  var  logOut = document.getElementById("logoutForm");
+   logOut.style.display="none";
+
+ });
+
+
+ $(function() {
+ $("#signUp").on("click", signUp);
+
+   });
+ function signUp() {
+ var email= $("#userame").val();
+ var password=  $("#passwd").val();
+    $.post("/api/players", {  userName: email , pwd: password }).done(function() { console.log("sing up!"); })
+    $("#output").text(email);
+    document.getElementById("logoutForm").style.display = "block";
+    document.getElementById("login_form").style.display = "none";
+
+
+ }
+  $(function() {
+ $("#login").on("click", login);
+
+   });
+ function login() {
+ var email= $("#userame").val();
+ var password=  $("#passwd").val();
+     $.post("/api/login", {  userName: email , pwd: password }).done(function() { console.log("logged in!"); })
+     $("#output").text(email);
+    document.getElementById("logoutForm").style.display = "block";
+     document.getElementById("login_form").style.display = "none";
+
+
+ }
+ $(function() {
+ $("#logout").on("click", logout);
+
+   });
+ function logout() {
+ var email= $("#userame").val();
+ var password=  $("#passwd").val();
+     $.post("/api/logout").done(function() { console.log("logged out!"); })
+     $("#output").text("");
+    document.getElementById("logoutForm").style.display = "none";
+     document.getElementById("login_form").style.display = "block";
 
 
  }
