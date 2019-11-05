@@ -1,20 +1,16 @@
 package com.codeoftheweb.salvo;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -25,9 +21,47 @@ public class SalvoController {
     GamePlayerRepositoy gpRepo;
     @Autowired
     PlayerRepository pRepo;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String userName, @RequestParam String pwd) {
+        if (userName.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
+        }
+        Player user = pRepo.findByUserName(userName);
+        if (user != null) {
+            return new ResponseEntity<>(makeMap("error", "Name in use"), HttpStatus.CONFLICT);
+        }
+
+        Player newPlayer = pRepo.save(new Player(userName, passwordEncoder.encode(pwd)));
+        return new ResponseEntity<>(makeMap("id", newPlayer.getId()) , HttpStatus.CREATED);
+    }
+
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+
     @RequestMapping("/games")
-    public List<Object> getGameData() {
-        return repo.findAll().stream().map(e -> e.getJson()).collect(Collectors.toList());
+    public Map<String, Object> getGameData( Authentication authentication) {
+
+        Map<String, Object> gamesInfo = new LinkedHashMap<>();
+
+        if (isGuest(authentication)){
+            gamesInfo.put("current_user", null);
+        } else {
+            Player ply = pRepo.findByUserName(authentication.getName());
+
+            gamesInfo.put("current_user", ply.getUserDetails());
+        }
+        List<Map<String, Object>> gameList = repo.findAll().stream().map(e -> e.getJson()).collect(Collectors.toList());
+
+        gamesInfo.put("games_list",gameList);
+
+        return  gamesInfo;
     }
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
@@ -40,7 +74,7 @@ public class SalvoController {
         }else{
             Game game = new Game(10);
             repo.save(game);
-            Player ply = pRepo.findByuserName(authentication.getName());
+            Player ply = pRepo.findByUserName(authentication.getName());
             GamePlayer gPlayer = new GamePlayer(10, ply,game );
             gpRepo.save(gPlayer);
             return new ResponseEntity<>(createMap("gpid", gPlayer.getId()), HttpStatus.CREATED);
@@ -60,7 +94,7 @@ public class SalvoController {
         if(gamecito.getGamePlayers().size() >= 2){
             return new ResponseEntity<>(createMap("error","Game is full"), HttpStatus.FORBIDDEN);
         }
-        Player ply = pRepo.findByuserName(authentication.getName());
+        Player ply = pRepo.findByUserName(authentication.getName());
         if(gamecito.getGamePlayers().stream().map(
                 gamePlayer -> gamePlayer.getPlayer().getUserName()).collect(Collectors.toList()).contains(ply.getUserName())){
             return new ResponseEntity<>(createMap("error","You're already in"), HttpStatus.FORBIDDEN);

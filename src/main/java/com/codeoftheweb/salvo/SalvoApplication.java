@@ -19,6 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -32,15 +34,18 @@ public class SalvoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SalvoApplication.class, args);
 	}
-
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
 @Bean
 public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository GameRep, GamePlayerRepositoy GPRep, ShipRepository shRep, SalvoRepository salvoesRepo, ScoreRepository scRep ) {
 	return (args) -> {
 		// save a couple of customers
-		Player player1 = new Player("antoto@ctu.gov","24");
-		Player player2 = new Player("ccaroto@ctu.gov","42");
-		Player player3 = new Player("maruchan@gmail.com","kb");
-		Player player4 = new Player("pawbi@ctu.gov","mole");
+		Player player1 = new Player("antoto@ctu.gov", passwordEncoder().encode("24"));
+		Player player2 = new Player("ccaroto@ctu.gov",passwordEncoder().encode("42"));
+		Player player3 = new Player("maruchan@gmail.com",passwordEncoder().encode("kb"));
+		Player player4 = new Player("pawbi@ctu.gov",passwordEncoder().encode("mole"));
 
 		PlayerRep.save(player1);
 		PlayerRep.save(player2);
@@ -212,7 +217,6 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 						.antMatchers("/admin/**").hasAuthority("ADMIN")
-						.antMatchers("/api/login").hasAuthority("USER")
 						.antMatchers("/api/logout").hasAuthority("USER")
 						.and()
 						.formLogin().usernameParameter("userName")
