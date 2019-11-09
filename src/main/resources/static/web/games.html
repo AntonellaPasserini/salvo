@@ -12,9 +12,10 @@
             <div class="row">
             <div id="login_form">
                 <form action="" onsubmit="return false">
-                    <label>Email User Name [e.g., alice@aol.com]: <input id="userame" type="text" size="40"></label>
-                    <label>Password: <input id="passwd" type="text" size="40"></label>
-                    <button id="login">login</button><button id="signUp">sign up</button>
+                    <label  for="userame">Email User Name [e.g., alice@aol.com]: <input id="userame" type="email" minlength="5" required></label>
+                    <label  for="passwd">Password: <input id="passwd" type="password" minlength="4" required></label>
+                    <button type="submit" id="signUp">sign up</button>
+                    <button type="submit" id="login">login</button>
 
                 </form>
             </div>
@@ -22,6 +23,7 @@
                 <form action="" onsubmit="return false">
                     <pre id="output"></pre>
                     <button id="logout">logout</button>
+                    <button onclick="createGame()">Create Game</button>
 
                 </form>
             </div>

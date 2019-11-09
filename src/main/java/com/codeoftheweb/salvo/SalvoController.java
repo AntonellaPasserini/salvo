@@ -51,7 +51,7 @@ public class SalvoController {
         Map<String, Object> gamesInfo = new LinkedHashMap<>();
 
         if (isGuest(authentication)){
-            gamesInfo.put("current_user", null);
+            gamesInfo.put("current_user", "Guest");
         } else {
             Player ply = pRepo.findByUserName(authentication.getName());
 
