@@ -126,7 +126,35 @@ public class SalvoController {
 
         return new ResponseEntity<>(gpRepo.getOne(nn).getGameViewJson(),HttpStatus.ACCEPTED);
     }
+    @RequestMapping(value = "/games/players/{nn}/ship", method = RequestMethod.POST)
+    private ResponseEntity<Map<String,Object>> addShips(@PathVariable long id,
+                                                        @RequestBody List <Ship>ships,
+                                                        Authentication authentication){
+        GamePlayer gamePlayer= gpRepo.findById(nn).orElse(null);
+        Player current_user = getAuthentication/*isGuest*/(authentication);
+        if (current_user== null)
+                return new ResponseEntity<>(createMap("error", "no player logged in"), HttpStatus.UNAUTHORIZED);
+        if (gamePlayer == null)
+            return new ResponseEntity<>(createMap("error", "there is no gamePlayer with that id"), HttpStatus.UNAUTHORIZED);
+        if(WrongGamePlayer(gamePlayer, current_user)){
+            return new ResponseEntity<>(createMap("error", "this is not your game")HttpStatus.UNAUTHORIZED);
+        }else{
+                if (gamePlayer.getShips().isEmpty()){
+                    ships.forEach(ship -> ship.setGamePlayer (gamePlayer));
+                    //gamePlayer.setShip(ships)
+                    return new ResponseEntity<>(createMap("ok","Ships saved")HttpStatus.CREATED);
+                }else {
+                    return new ResponseEntity<>(createMap("error","Player already have ships")HttpStatus.FORBIDDEN);
 
+                }
+
+            }
+        private boolean WrongGamePlayer(GamePlayer gamePlayer,
+                                        Player current_user){
+            boolean incorrectGP= gamePlayer.getPlayer().getId() != current_user.getId();
+            return incorrectGP;
+        }
+    }
 
 }
 
