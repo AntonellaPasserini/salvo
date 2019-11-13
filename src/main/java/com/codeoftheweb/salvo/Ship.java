@@ -45,5 +45,7 @@ public class Ship {
 
     public GamePlayer getGamePlayers() { return gamePlayer ;}
 
-
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
 }
