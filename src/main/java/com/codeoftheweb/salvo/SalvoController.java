@@ -126,11 +126,16 @@ public class SalvoController {
 
         return new ResponseEntity<>(gpRepo.getOne(nn).getGameViewJson(),HttpStatus.ACCEPTED);
     }
-    @RequestMapping(value = "/games/players/{nn}/ship", method = RequestMethod.POST)
+    private boolean WrongGamePlayer(GamePlayer gamePlayer,
+                                    Player current_user) {
+        boolean incorrectGP = gamePlayer.getPlayer().getId() != current_user.getId();
+        return incorrectGP;
+    }
+    @RequestMapping(value = "/games/players/{id}/ship", method = RequestMethod.POST)
     private ResponseEntity<Map<String,Object>> addShips(@PathVariable long id,
                                                         @RequestBody List <Ship>ships,
                                                         Authentication authentication){
-        GamePlayer gamePlayer= gpRepo.findById(nn).orElse(null);
+        GamePlayer gamePlayer= gpRepo.findById(id).orElse(null);
         Player current_user = getAuthentication/*isGuest*/(authentication);
         if (current_user== null)
                 return new ResponseEntity<>(createMap("error", "no player logged in"), HttpStatus.UNAUTHORIZED);
@@ -149,10 +154,7 @@ public class SalvoController {
                 }
 
             }
-        private boolean WrongGamePlayer(GamePlayer gamePlayer,
-                                        Player current_user){
-            boolean incorrectGP= gamePlayer.getPlayer().getId() != current_user.getId();
-            return incorrectGP;
+
         }
     }
 
