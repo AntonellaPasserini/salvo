@@ -55,6 +55,19 @@ function loadData(){
 
             $('#playerInfo').text(playerInfo[0] + '(you) vs ' + playerInfo[1]);
 
+
+      data.ships.forEach(function (shipPiece) {
+        shipPiece.shipLocations.forEach(function (shipLocation) {
+          let turnHitted = isHit(shipLocation,data.salvoes,playerInfo[0].id)
+          if(turnHitted >0){
+            $('#B_' + shipLocation).addClass('ship-piece-hited');
+            $('#B_' + shipLocation).text(turnHitted);
+          }
+          else
+            $('#B_' + shipLocation).addClass('ship-piece');
+        });
+      });
+
             data.ships.forEach(function(shipPiece){
                 shipPiece.shipLocations.forEach(function(shipLocation){
                     $('#'+shipLocation).addClass('ship-piece');
