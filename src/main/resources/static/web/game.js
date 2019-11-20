@@ -48,13 +48,18 @@ function loadData(){
         .done(function(data) {
             console.log(data)
             let playerInfo;
-            if(data.gamePlayers[0].id == getParameterByName('gp'))
-                playerInfo = [data.gamePlayers[0].player.email,data.gamePlayers[1].player.email];
-            else
-                playerInfo = [data.gamePlayers[1].player.email,data.gamePlayers[0].player.email];
+            if (data.gamePlayers.length>1){
+                if(data.gamePlayers.id == getParameterByName('gp'))
+                    playerInfo = [data.gamePlayers[0].player.email,data.gamePlayers[1].player.email];
+                else
+                    playerInfo = [data.gamePlayers[1].player.email,data.gamePlayers[0].player.email];
 
-            $('#playerInfo').text(playerInfo[0] + '(you) vs ' + playerInfo[1]);
+                $('#playerInfo').text(playerInfo[0] + '(you) vs ' + playerInfo[1]);
 
+            } else{
+                    playerInfo = [data.gamePlayers[0].player.email, "waiting for another player"];
+                    $('#playerInfo').text(playerInfo[0] + '(you) vs  '+ playerInfo[1]);
+                   }
 
       data.ships.forEach(function (shipPiece) {
         shipPiece.shipLocations.forEach(function (shipLocation) {
