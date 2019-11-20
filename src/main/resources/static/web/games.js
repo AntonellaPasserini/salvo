@@ -127,7 +127,8 @@ list =   info.games_list.map(function (e){
  }
  function createGame() {
    $.post("/api/games" ).done(function(data) {
-         location.href   =   "/web/game.html?gp="+data.gpid;
+         //location.href   =   "/web/game.html?gp="+data.gpid;
+         location.href =  "/web/battleship-gridStack/grid.html?gp="+data.gpid;
       })
      }
 
@@ -140,7 +141,8 @@ function enterGame(gpid) {
  console.log("sirve?")
    $.post("/api/games/"+gameId+"/players" ).done(function(data) {
          console.log("join in!");
-         location.href  =   "/web/game.html?gp="+data.gpid;
+        // location.href  =   "/web/game.html?gp="+data.gpid;
+         location.href =  "/web/battleship-gridStack/grid.html?gp="+data.gpid;
 
       })
      }
