@@ -27,6 +27,9 @@ public class SalvoController {
     @Autowired
     ShipRepository srepo;
 
+    @Autowired
+    SalvoRepository saRepo;
+
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createUser(@RequestParam String userName, @RequestParam String pwd) {
         if (userName.isEmpty()) {
@@ -134,6 +137,7 @@ public class SalvoController {
         boolean incorrectGP = gamePlayer.getPlayer().getId() != current_user.getId();
         return incorrectGP;
     }
+
     @RequestMapping(value = "/games/players/{id}/ship", method = RequestMethod.POST)
     private ResponseEntity<Map<String,Object>> addShips(@PathVariable long id,
                                                         @RequestBody List <Ship>ships,
@@ -164,6 +168,39 @@ public class SalvoController {
             }
 
         }
+
+    @RequestMapping(value = "/games/players/{id}/salvos", method = RequestMethod.POST)
+    private ResponseEntity<Map<String,Object>> addSalvoes(@PathVariable long id,
+                                                        @RequestBody Salvo salvoes,
+                                                        Authentication authentication){
+        GamePlayer gamePlayer= gpRepo.findById(id).orElse(null);
+
+        if(isGuest(authentication)){
+            return new ResponseEntity<>(createMap("error","You must login!"), HttpStatus.UNAUTHORIZED);
+        }
+        Player current_user= pRepo.findByUserName(authentication.getName()) ;
+        if (current_user== null)
+            return new ResponseEntity<>(createMap("error", "no player logged in"), HttpStatus.UNAUTHORIZED);
+        if (gamePlayer == null)
+            return new ResponseEntity<>(createMap("error", "there is no gamePlayer with that id"), HttpStatus.UNAUTHORIZED);
+        if(WrongGamePlayer(gamePlayer, current_user)){
+            return new ResponseEntity<>(createMap("error", "this is not your game"),HttpStatus.UNAUTHORIZED);
+        }else{
+            if (gamePlayer.getSalvoes().isEmpty() || (salvoes.GetTurnNumber()> gamePlayer.getSalvoes().size() && (salvoes.GetTurnNumber() - gamePlayer.getSalvoes().size() ==1))){
+                if (salvoes.getLocations().size()<5){
+                    return new ResponseEntity<>(createMap("error","you haven´t use all your shots"),HttpStatus.FORBIDDEN);
+                }else {
+                    saRepo.save(salvoes);
+                    return new ResponseEntity<>(createMap("ok", "Salvoes saved"), HttpStatus.CREATED);
+                }
+            }else {
+                return new ResponseEntity<>(createMap("error","You have used all your shots or is not your turn  yet"),HttpStatus.FORBIDDEN);
+
+            }
+
+        }
+
+    }
     }
 
 

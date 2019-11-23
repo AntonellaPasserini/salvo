@@ -37,9 +37,13 @@ public class Salvo {
         return locations;
     }
 
-    private int turnNumber;
+    private int turnNumber=0;
 
-    public  int  GetTurnNumber() { return turnNumber ;}
+    public  int  GetTurnNumber() { return turnNumber++ ;}
 
     public GamePlayer getGamePlayers() { return gamePlayer ;}
+
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
 }
