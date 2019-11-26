@@ -190,6 +190,9 @@ public class SalvoController {
                 if (salvoes.getLocations().size()<5){
                     return new ResponseEntity<>(createMap("error","you haven´t use all your shots"),HttpStatus.FORBIDDEN);
                 }else {
+                    salvoes.setGamePlayer(gamePlayer);
+                    //salvoes.setTurnNumber(gamePlayer.getSalvoes().size());
+                  salvoes.setTurnNumber(1);
                     saRepo.save(salvoes);
                     return new ResponseEntity<>(createMap("ok", "Salvoes saved"), HttpStatus.CREATED);
                 }

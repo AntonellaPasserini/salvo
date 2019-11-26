@@ -23,10 +23,10 @@ public class Salvo {
 
     public Salvo(){}
 
-    public Salvo(GamePlayer gp, int tn, List <String> Locations){
+    public Salvo(GamePlayer gp, int tn, List <String> locations){
         this.gamePlayer=gp;
         this.turnNumber= tn;
-        this.locations= Locations;
+        this.locations= locations;
     }
 
     public long getId(){
@@ -37,13 +37,17 @@ public class Salvo {
         return locations;
     }
 
-    private int turnNumber=0;
+    private int turnNumber;
 
-    public  int  GetTurnNumber() { return turnNumber++ ;}
+    public  int  GetTurnNumber() { return turnNumber ;}
 
     public GamePlayer getGamePlayers() { return gamePlayer ;}
 
     public void setGamePlayer(GamePlayer gamePlayer) {
         this.gamePlayer = gamePlayer;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
     }
 }

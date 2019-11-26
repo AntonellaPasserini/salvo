@@ -33,22 +33,21 @@ const loadGrid = function () {
 
     grid = $('#grid').data('gridstack');
 
-    //Aqui se inicializan los widgets(nuestros barcos) en la matriz 
+    //Aqui se inicializan los widgets(nuestros barcos) en la matriz
     //.addWidget(elemento,pos x, pos y, ancho, alto) **
-    grid.addWidget($('<div id="patrol_boat"><div class="grid-stack-item-content patrol_boatHorizontal"></div><div/>'),
-        0, 1, 2, 1);
+    grid.addWidget($('<div id="missile1"><div class="grid-stack-item-content missile"></div><div/>'),
+        0,0, 1, 1);
 
-    grid.addWidget($('<div id="carrier"><div class="grid-stack-item-content carrierHorizontal"></div><div/>'),
-        1, 5, 5, 1);
+    grid.addWidget($('<div id="missile2"><div class="grid-stack-item-content missile"></div><div/>'),
+        1, 0, 1, 1);
 
-    grid.addWidget($('<div id="battleship"><div class="grid-stack-item-content battleshipHorizontal"></div><div/>'),
-        3, 1, 4, 1);
+    grid.addWidget($('<div id="missile3"><div class="grid-stack-item-content missile"></div><div/>'),
+        2, 0, 1, 1);
 
-    grid.addWidget($('<div id="submarine"><div class="grid-stack-item-content submarineVertical"></div><div/>'),
-        8, 2, 1, 3);
+    grid.addWidget($('<div id="missile4"><div class="grid-stack-item-content missile"></div><div/>'),
+        3, 0, 1, 1);
 
-    grid.addWidget($('<div id="destroyer"><div class="grid-stack-item-content destroyerHorizontal"></div><div/>'),
-        7, 8, 3, 1);
+
 
 
     //createGrid construye la estructura de la matriz
@@ -56,15 +55,15 @@ const loadGrid = function () {
 
     //Inicializo los listenener para rotar los barcos, el numero del segundo rgumento
     //representa la cantidad de celdas que ocupa tal barco
-    rotateShips("carrier", 5)
-    rotateShips("battleship", 4)
-    rotateShips("submarine",3)
-    rotateShips("destroyer", 3)
-    rotateShips("patrol_boat",2)
+    //rotateShips("carrier", 5)
+    //rotateShips("battleship", 4)
+    //rotateShips("submarine",3)
+    //rotateShips("destroyer", 3)
+    //rotateShips("patrol_boat",2)
 
     listenBusyCells('ships')
     $('.grid-stack').on('change', () => listenBusyCells('ships'))
-    
+
 }
 
 
@@ -75,7 +74,7 @@ size:refiere al tamaño de nuestra grilla (siempre sera una matriz
 element: es la tag que contendra nuestra matriz, para este ejemplo
         sera el primer div de nuestro body
 id: sera como lo llamamos, en este caso ship ???)
-*/    
+*/
 const createGrid = function(size, element, id){
     // definimos un nuevo elemento: <div></div>
     let wrapper = document.createElement('DIV')
@@ -112,13 +111,13 @@ const createGrid = function(size, element, id){
                 cell.id = `${id}${i - 1}${ j - 1}`
             }
             //aqui entran las celdas cabecera de cada fila
-            if(j===0 && i > 0){        
+            if(j===0 && i > 0){
                 // textNode: <span></span>
                 let textNode = document.createElement('SPAN')
-                /*String.fromCharCode(): método estático que devuelve 
+                /*String.fromCharCode(): método estático que devuelve
                 una cadena creada mediante el uso de una secuencia de
                 valores Unicode especificada. 64 == @ pero al entrar
-                cuando i sea mayor a cero, su primer valor devuelto 
+                cuando i sea mayor a cero, su primer valor devuelto
                 sera "A" (A==65)
                 <span>A</span>*/
                 textNode.innerText = String.fromCharCode(i+64)
@@ -149,8 +148,8 @@ const createGrid = function(size, element, id){
 
 /*manejador de evento para rotar los barcos, el mismo se ejecuta al hacer click
 sobre un barco
-function(tipoDeBarco, celda)*/
-const rotateShips = function(shipType, cells){
+function(tipoDeBarco, celda)
+//const rotateShips = function(shipType, cells){
 
         $(`#${shipType}`).click(function(){
             document.getElementById("alert-text").innerHTML = `Rotaste: ${shipType}`
@@ -163,23 +162,23 @@ const rotateShips = function(shipType, cells){
         .children es una propiedad de sólo lectura que retorna una HTMLCollection "viva"
         de los elementos hijos de un elemento.
         https://developer.mozilla.org/es/docs/Web/API/ParentNode/children
-        El método .hasClass() devuelve verdadero si la clase existe como tal en el 
+        El método .hasClass() devuelve verdadero si la clase existe como tal en el
         elemento/tag incluso si tal elemento posee mas de una clase.
         https://api.jquery.com/hasClass/
         Consultamos si el barco que queremos girar esta en horizontal
         children consulta por el elemento contenido en "this"(tag que lanza el evento)
         ej:
-        <div id="carrier" data-gs-x="0" data-gs-y="3" data-gs-width="5" 
-        data-gs-height="1" class="grid-stack-item ui-draggable ui-resizable 
+        <div id="carrier" data-gs-x="0" data-gs-y="3" data-gs-width="5"
+        data-gs-height="1" class="grid-stack-item ui-draggable ui-resizable
         ui-resizable-autohide ui-resizable-disabled">
             <div class="grid-stack-item-content carrierHorizontal ui-draggable-handle">
             </div>
             <div></div>
-            <div class="ui-resizable-handle ui-resizable-se ui-icon 
+            <div class="ui-resizable-handle ui-resizable-se ui-icon
             ui-icon-gripsmall-diagonal-se" style="z-index: 90; display: none;">
             </div>
         </div>
-        */
+
         if($(this).children().hasClass(`${shipType}Horizontal`)){
             // grid.isAreaEmpty revisa si un array esta vacio**
             // grid.isAreaEmpty(fila, columna, ancho, alto)
@@ -195,18 +194,18 @@ const rotateShips = function(shipType, cells){
                         este metodo actualiza la posicion/tamaño del widget(barco)
                         ya que rotare el barco a vertical, no me interesa el ancho sino
                         el alto
-                        */
+
 	            		grid.update($(this), null, 10 - cells)
 	                	grid.resize($(this),1,cells);
 	                	$(this).children().removeClass(`${shipType}Horizontal`);
 	                	$(this).children().addClass(`${shipType}Vertical`);
 	            }
-                
-                
+
+
             }else{
             		document.getElementById("alert-text").innerHTML = "A ship is blocking the way!"
             }
-            
+
         //Este bloque se ejecuta si el barco que queremos girar esta en vertical
         }else{
 
@@ -218,20 +217,20 @@ const rotateShips = function(shipType, cells){
                 /*en esta ocasion para el update me interesa el ancho y no el alto
                 ya que estoy rotando a horizontal, por estoel tercer argumento no lo
                 declaro (que es lo mismo que poner null o undefined)*/
-                grid.update($(this), 10 - cells)
-                grid.resize($(this),cells,1);
-                $(this).children().addClass(`${shipType}Horizontal`);
-                $(this).children().removeClass(`${shipType}Vertical`);
-            }
-            
-        }
-    });
+              //  grid.update($(this), 10 - cells)
+            //    grid.resize($(this),cells,1);
+        //        $(this).children().addClass(`${shipType}Horizontal`);
+          //      $(this).children().removeClass(`${shipType}Vertical`);
+      //      }
 
-}
+    //    }
+  //  });
+
+//}
 
 //Bucle que consulta por todas las celdas para ver si estan ocupadas o no
 const listenBusyCells = function(id){
-    /* id vendria a ser ships. Recordar el id de las celdas del tablero se arma uniendo 
+    /* id vendria a ser ships. Recordar el id de las celdas del tablero se arma uniendo
     la palabra ships + fila + columna contando desde 0. Asi la primer celda tendra id
     ships00 */
     for(let i = 0; i < 10; i++){
@@ -244,51 +243,56 @@ const listenBusyCells = function(id){
         }
     }
 }
-const obtenerPosicion = function (shipType) {
-    var ship = new Object();
-    ship["name"] = $("#" + shipType).attr('id');
-    ship["x"] = $("#" + shipType).attr('data-gs-x');
-    ship["y"] = $("#" + shipType).attr('data-gs-y');
-    ship["width"] = $("#" + shipType).attr('data-gs-width');
-    ship["height"] = $("#" + shipType).attr('data-gs-height');
-    ship["positions"] = [];
-    if (ship.height == 1) {
-        for (i = 1; i <= ship.width; i++) {
-            ship.positions.push(String.fromCharCode(parseInt(ship.y) + 65) + (parseInt(ship.x) + i))
+const obtenerPosicion = function (Locations) {
+    var salvo = new Object();
+  //  salvo["name"] = $("#" + shipType).attr('id');
+    salvo["x"] = $("#" + Locations).attr('data-gs-x');
+    salvo["y"] = $("#" + Locations).attr('data-gs-y');
+    salvo["width"] = $("#" + Locations).attr('data-gs-width');
+    salvo["height"] = $("#" + Locations).attr('data-gs-height');
+    salvo["positions"] = [];
+    if (salvo.height == 1) {
+        for (i = 1; i <= salvo.width; i++) {
+            salvo.positions.push(String.fromCharCode(parseInt(salvo.y) + 65) + (parseInt(salvo.x) + i))
         }
     } else {
-        for (i = 0; i < ship.height; i++) {
-            ship.positions.push(String.fromCharCode(parseInt(ship.y) + 65 + i) + (parseInt(ship.x) + 1))
+        for (i = 0; i < salvo.height; i++) {
+            salvo.positions.push(String.fromCharCode(parseInt(salvo.y) + 65 + i) + (parseInt(salvo.x) + 1))
         }
     }
     var objShip = new Object();
-    objShip["shipType"] = ship.name;
-    objShip["locations"] = ship.positions;
+
+    objShip["locations"] = salvo.positions;
     return objShip;
 }
 function getParameterByName(name) {
      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
  };
-function addShip(){
-        var carrier = obtenerPosicion("carrier")
-        var patrol = obtenerPosicion("patrol_boat")
-        var battleship = obtenerPosicion("battleship")
-        var submarine = obtenerPosicion("submarine")
-        var destroyer = obtenerPosicion("destroyer")
-        console.log(carrier);
+function addSalvo(){
+        var m1 = obtenerPosicion("missile1")
+        var m2 = obtenerPosicion("missile2")
+        var m3 = obtenerPosicion("missile3")
+        var m4 = obtenerPosicion("missile4")
+
+        locationComplete=[]
+        locationComplete = m1.locations.concat(m2.locations).concat(m3.locations).concat(m4.locations)
+
+        var salvos = new Object();
+                salvos["locations"] = locationComplete;
+        console.log(salvos);
         $.post({
-          url: "/api/games/players/"+getParameterByName('gp')+"/ship",
-          data: JSON.stringify([carrier,patrol,battleship, submarine,destroyer]),
+          url: "/api/games/players/"+getParameterByName('gp')+"/salvos",
+          data: JSON.stringify(salvos),
           dataType: "text",
           contentType: "application/json"
         })
         .done(function (response, status, jqXHR) {
 
-          alert( "Ship added: " + response );
+          alert( "Salvo Fired: " + response );
           location.href  =   "/web/game.html?gp="+getParameterByName('gp');
         })
         .fail(function (jqXHR, status, httpError) {
-          alert("Failed to add ship: " + status + " " + httpError);
+          alert("Failed to Fire Salvo: " + status + " " + httpError);
         })
 }

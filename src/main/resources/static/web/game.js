@@ -107,3 +107,14 @@ function loadData(){
      }
 
      }
+
+     function getParameterByName(name) {
+          var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+          return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+      };
+function placeSalvo(){
+ $.post("/api/games" ).done(function(data) {
+         //location.href   =   "/web/game.html?gp="+data.gpid;
+         location.href =  "/web/battleship-gridStack/gridAddSalvoes.html?gp="+getParameterByName('gp');
+      })
+     }
