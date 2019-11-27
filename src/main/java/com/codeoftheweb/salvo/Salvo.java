@@ -37,7 +37,7 @@ public class Salvo {
         return locations;
     }
 
-    private int turnNumber;
+    private int turnNumber ;
 
     public  int  GetTurnNumber() { return turnNumber ;}
 

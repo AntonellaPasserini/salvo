@@ -46,7 +46,8 @@ const loadGrid = function () {
 
     grid.addWidget($('<div id="missile4"><div class="grid-stack-item-content missile"></div><div/>'),
         3, 0, 1, 1);
-
+    grid.addWidget($('<div id="missile5"><div class="grid-stack-item-content missile"></div><div/>'),
+        4, 0, 1, 1);
 
 
 
@@ -274,9 +275,10 @@ function addSalvo(){
         var m2 = obtenerPosicion("missile2")
         var m3 = obtenerPosicion("missile3")
         var m4 = obtenerPosicion("missile4")
+        var m5 = obtenerPosicion("missile5")
 
         locationComplete=[]
-        locationComplete = m1.locations.concat(m2.locations).concat(m3.locations).concat(m4.locations)
+        locationComplete = m1.locations.concat(m2.locations).concat(m3.locations).concat(m4.locations).concat(m5.locations)
 
         var salvos = new Object();
                 salvos["locations"] = locationComplete;
