@@ -276,7 +276,6 @@ function addSalvo(){
         var m3 = obtenerPosicion("missile3")
         var m4 = obtenerPosicion("missile4")
         var m5 = obtenerPosicion("missile5")
-
         locationComplete=[]
         locationComplete = m1.locations.concat(m2.locations).concat(m3.locations).concat(m4.locations).concat(m5.locations)
 
