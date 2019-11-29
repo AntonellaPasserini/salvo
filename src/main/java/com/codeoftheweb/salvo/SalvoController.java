@@ -191,7 +191,7 @@ public class SalvoController {
                     return new ResponseEntity<>(createMap("error","you haven´t use all your shots"),HttpStatus.FORBIDDEN);
                 }else {
                     salvoes.setGamePlayer(gamePlayer);
-                    //salvoes.setTurnNumber(gamePlayer.getSalvoes().size());
+                    //salvoes.setTurnNumber(gamePlayer.getSalvoes().size()+1);
                   salvoes.setTurnNumber(1);
                     saRepo.save(salvoes);
                     return new ResponseEntity<>(createMap("ok", "Salvoes saved"), HttpStatus.CREATED);
