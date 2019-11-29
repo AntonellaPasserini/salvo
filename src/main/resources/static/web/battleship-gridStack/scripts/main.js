@@ -286,7 +286,7 @@ function addShip(){
         .done(function (response, status, jqXHR) {
 
           alert( "Ship added: " + response );
-          location.href  =   "/web/game.html?gp="+getParameterByName('gp');
+          location.href  =   "/web/game2.html?gp="+getParameterByName('gp');
         })
         .fail(function (jqXHR, status, httpError) {
           alert("Failed to add ship: " + status + " " + httpError);

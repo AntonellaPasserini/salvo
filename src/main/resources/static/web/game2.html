@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ships locations!</title>
+    <!-- <link rel="stylesheet" type="text/css" href="game2.css">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="battleship-gridStack/dist/normalize.css" />
+    <link rel="stylesheet" href="battleship-gridStack/dist/gridstack.css" />
+    <link rel="stylesheet" href="battleship-gridStack/dist/gridstack-extra.css" />
+    <link rel="stylesheet" href="battleship-gridStack/styles/style.css" />
+</head>
+<body class="container">
+<div id="logout">
+    <h5 id="player"></h5>
+    <button id="logout-btn" type="button">Log out</button>
+</div>
+<div>
+    <span id="playerInfo"></span>
+</div>
+
+<div class="row">
+    <div class="col s6">
+        <div class="grid-ships">
+
+            <div id="grid" class="grid-stack grid-stack-10">
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col s6">
+        <div class="grid-salvos">
+
+            <!--<div id="gridSalvo" class="grid-stack grid-stack-10">
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<button id="saveShips" onclick="addShip()">Save ships</button>
+
+<small id="alert-text"></small>
+
+<script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+<script src="battleship-gridStack/dist/jquery-ui.min.js"></script>
+<script src="battleship-gridStack/dist/gridstack.js"></script>
+<script src="battleship-gridStack/dist/gridstack.jQueryUI.js"></script>
+<script src="battleship-gridStack/dist/jquery.ui.touch-punch.min.js"></script>
+<script src="game2.js"></script>
+
+
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="game2.js"></script>
+&lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+&lt;!&ndash; jQuery library &ndash;&gt;
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+&lt;!&ndash; Popper JS &ndash;&gt;
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+&lt;!&ndash; Latest compiled JavaScript &ndash;&gt;
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+</body>
+</html>
