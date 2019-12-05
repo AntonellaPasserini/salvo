@@ -134,7 +134,7 @@ list =   info.games_list.map(function (e){
 
 function enterGame(gpid) {
   $.get("/api/game_view/"+gpid ).done(function() {
-        location.href   =   "/web/game.html?gp="+gpid;
+       location.href  =   "/web/game2.html?gp="+gpid;
      })
     }
  function joinGame(gameId) {

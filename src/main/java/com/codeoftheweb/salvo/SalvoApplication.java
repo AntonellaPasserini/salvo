@@ -61,6 +61,7 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		Game game6 = new Game(5);
 		Game game7 = new Game(6);
 		Game game8 = new Game(7);
+		Game game9 = new Game(7);
 
 
 		GameRep.save(game1);
@@ -71,6 +72,7 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		GameRep.save(game6);
 		GameRep.save(game7);
 		GameRep.save(game8);
+		GameRep.save(game9);
 
 
 
@@ -88,6 +90,8 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		GamePlayer gamePlayer12 = new GamePlayer(6, player4,game7);
 		GamePlayer gamePlayer13= new GamePlayer(7, player3,game8);
 		GamePlayer gamePlayer14= new GamePlayer(7, player4,game8);
+		GamePlayer gamePlayer15= new GamePlayer(7, player3,game9);
+		GamePlayer gamePlayer16= new GamePlayer(7, player4,game9);
 
 		GPRep.save(gamePlayer1);
 		GPRep.save(gamePlayer2);
@@ -103,6 +107,8 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		GPRep.save(gamePlayer12);
 		GPRep.save(gamePlayer13);
 		GPRep.save(gamePlayer14);
+		GPRep.save(gamePlayer15);
+		GPRep.save(gamePlayer16);
 
 
 		Ship ship1P1G1 = new Ship("Submarine", Arrays.asList("H2", "H3", "H4"), gamePlayer1);
@@ -131,11 +137,15 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		Ship ship2P3G8 = new Ship("Patrol Boat", Arrays.asList("C6", "C7"), gamePlayer12);
 		Ship ship1P4G8 = new Ship("Submarine", Arrays.asList("A2", "A3", "A4"), gamePlayer13);
 		Ship ship2P4G8 = new Ship("Patrol Boat", Arrays.asList("G6", "H6"), gamePlayer13);
+		Ship ship1P3G9 = new Ship("Destroyer", Arrays.asList("B5", "C5", "D5"), gamePlayer15);
+		Ship ship2P3G9 = new Ship("Patrol Boat", Arrays.asList("C6", "C7"),gamePlayer15);
+		Ship ship1P4G9 = new Ship("Destroyer", Arrays.asList("B5", "C5", "D5"), gamePlayer16);
+		Ship ship2P4G9 = new Ship("Patrol Boat", Arrays.asList("C6", "C7"),gamePlayer16);
 
 		List<Ship> testShips = Arrays.asList(ship1P1G1, ship2P1G1, ship1P2G1, ship2P2G1, ship1P1G2, ship2P1G2,
 				ship1P2G2, ship2P2G2, ship1P2G3, ship2P2G3, ship1P4G3, ship2P4G3, ship1P2G4, ship2P2G4, ship1P1G4,
 				ship2P1G4, ship1P4G5, ship2P4G5, ship1P1G5, ship2P1G5, ship1P3G6, ship2P3G6, ship1P3G8, ship2P3G8,
-				ship1P4G8, ship2P4G8);
+				ship1P4G8, ship2P4G8,ship1P3G9,ship1P4G9,ship2P3G9,ship2P4G9);
 
 		shRep.saveAll(testShips);
 
@@ -159,12 +169,14 @@ public CommandLineRunner initData(PlayerRepository PlayerRep, GameRepository Gam
 		Salvo salvoP4G5T2 = new Salvo(gamePlayer9,2, Arrays.asList("G6", "G7", "G8"));
 		Salvo salvoP1G5T1 = new Salvo(gamePlayer10,1, Arrays.asList("B5", "B6", "C7"));
 		Salvo salvoP1G5T2 = new Salvo( gamePlayer10,2, Arrays.asList("C6", "D6", "E6"));
-		Salvo salvoP1G5T3 = new Salvo(gamePlayer10,3, Arrays.asList("H1", "H8"));
+		Salvo salvoP3 = new Salvo(gamePlayer15,1, Arrays.asList("C6", "C7"));
+		Salvo salvoP4 = new Salvo(gamePlayer16,1, Arrays.asList("H1", "H8"));
+
 
 		List<Salvo> testSalvoes = Arrays.asList(salvoP1G1T1, salvoP1G1T2, salvoP2G1T1, salvoP2G1T2, salvoP1G2T1,
 				salvoP1G2T2, salvoP2G2T1, salvoP2G2T2, salvoP2G3T1, salvoP2G3T2, salvoP4G3T1, salvoP4G3T2,
 				salvoP2G4T1, salvoP2G4T2, salvoP1G4T1, salvoP1G4T2, salvoP4G5T1, salvoP4G5T2, salvoP1G5T1,
-				salvoP1G5T2, salvoP1G5T3);
+				salvoP1G5T2, salvoP3, salvoP4);
 
 		salvoesRepo.saveAll(testSalvoes);
 

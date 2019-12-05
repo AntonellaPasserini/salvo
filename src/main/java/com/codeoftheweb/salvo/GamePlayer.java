@@ -114,7 +114,7 @@ public class GamePlayer {
     public Map<String, Object> getGamePlayersData() {
         Map<String, Object> gamesPlayerData = new HashMap<>();
 
-        gamesPlayerData.put("id", this.getPlayer().getId());
+        gamesPlayerData.put("id", this.getId());
         gamesPlayerData.put("player",this.getPlayerDTO());
 
 
@@ -134,7 +134,7 @@ public class GamePlayer {
         Map<String, Object> salvoesDto = new HashMap<>();
 
         salvoesDto.put("turn", salvoes.GetTurnNumber());
-        salvoesDto.put("player", salvoes.getGamePlayers().getId());
+        salvoesDto.put("player", salvoes.getGamePlayers().getPlayer().getId());
         salvoesDto.put("locations",salvoes.getLocations());
 
 
@@ -148,7 +148,16 @@ public class GamePlayer {
         GameViewJson.put("created",getDate());
         GameViewJson.put("gamePlayers", this.getGame().getGamePlayers().stream().map(gamePlayer -> gamePlayer.getGamePlayersData()).collect(Collectors.toList()) );
         GameViewJson.put("ships", this.getShips().stream().map(shipp -> getGamePlayersShip(shipp)).collect(Collectors.toList()));
-        GameViewJson.put("salvoes",this.getSalvoes().stream().map(salvoes->getSalvoesDto(salvoes)).collect(Collectors.toList()));
+        GameViewJson.put("salvoes",this.getGame().getGamePlayers()
+                .stream()
+                .flatMap(gp -> gp.getSalvoes()
+                        .stream()
+                        .sorted(Comparator.comparing(Salvo::GetTurnNumber))
+                        .map(salvo -> this.getSalvoesDto(salvo))
+                )
+                .collect(Collectors.toList())
+        );
+
         return GameViewJson;
     }
 
